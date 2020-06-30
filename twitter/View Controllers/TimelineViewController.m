@@ -22,10 +22,13 @@
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
             NSLog(@"😎😎😎 Successfully loaded home timeline");
-            for (NSDictionary *dictionary in tweets) {
-                NSString *text = dictionary[@"text"];
-                NSLog(@"%@", text);
-            }
+            //for (NSDictionary *dictionary in tweets) {
+            //    NSString *text = dictionary[@"text"];
+            //    NSLog(@"%@", text);
+            //}
+            
+            self.tweets = tweets;
+            [self.tweetsTableView reloadData];
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
         }
