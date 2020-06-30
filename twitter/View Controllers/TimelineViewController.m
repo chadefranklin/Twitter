@@ -149,8 +149,18 @@ const NSString *usernameSymbol = @"@";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    UINavigationController *navigationController = [segue destinationViewController];
+    ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+    composeController.delegate = self;
 }
-*/
+
+
+
+- (void)didTweet:(nonnull Tweet *)tweet {
+    [self.tweets insertObject:tweet atIndex:0];
+    [self.tweetsTableView reloadData];
+}
 
 
 @end
