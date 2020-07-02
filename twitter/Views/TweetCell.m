@@ -27,11 +27,11 @@
         self.tweet.favorited = NO;
         self.tweet.favoriteCount -= 1;
         
-        [self refreshData];
+        [self updateViews];
         
         [[APIManager shared] unfavorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if(error){
-                 NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
+                 NSLog(@"Error unfavoriting tweet: %@", error.localizedDescription);
             }
             else{
                 NSLog(@"Successfully unfavorited the following Tweet: %@", tweet.text);
@@ -41,7 +41,7 @@
         self.tweet.favorited = YES;
         self.tweet.favoriteCount += 1;
         
-        [self refreshData];
+        [self updateViews];
         
         [[APIManager shared] favorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if(error){

@@ -83,21 +83,14 @@ const NSString *usernameSymbol = @"@";
 - (void)configureTweetCell:(TweetCell *)cell: (Tweet *)tweet{
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    cell.tweet = tweet;
+    
     // odd. screen name is the @username
     cell.displayNameLabel.text = tweet.user.name;
     //cell.usernameLabel.text = tweet.user.screenName;
     cell.usernameLabel.text = [usernameSymbol stringByAppendingString:tweet.user.screenName];
     cell.dateLabel.text = tweet.createdAtString;
     cell.tweetLabel.text = tweet.text;
-    
-    
-    if(tweet.favorited){
-        [cell.favoriteButton setTitle:[@(tweet.favoriteCount) stringValue] forState:UIControlStateSelected];
-    } else {
-        [cell.favoriteButton setTitle:[@(tweet.favoriteCount) stringValue] forState:UIControlStateNormal];
-        //NSLog([@"set favorites to: " stringByAppendingString:[@(tweet.favoriteCount) stringValue]]);
-    }
-    cell.favoriteButton.selected = tweet.favorited;
     
     if (tweet.user.profilePictureURLString){
         NSURL *imageURL = [NSURL URLWithString:tweet.user.profilePictureURLString];
@@ -135,7 +128,7 @@ const NSString *usernameSymbol = @"@";
         cell.profileImageView.image = nil;
     }
     
-    cell.tweet = tweet;
+    [cell updateViews];
 }
 
 - (IBAction)onLogoutPressed:(id)sender {

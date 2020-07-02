@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) Tweet *tweet;
 
 
-- (void)refreshData;
+- (void)updateViews;
 
 @end
 
