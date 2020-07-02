@@ -123,6 +123,10 @@
                                                             <state key="normal" title="100000" image="favor-icon">
                                                                 <color key="titleColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>
+                                                            <state key="selected" title="100000" image="favor-icon-red"/>
+                                                            <connections>
+                                                                <action selector="didTapFavorite:" destination="cuL-Hh-hRi" eventType="touchUpInside" id="ZKf-CO-XH1"/>
+                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YA9-AN-ebQ">
                                                             <rect key="frame" x="121" y="1" width="60" height="28"/>
@@ -298,6 +302,7 @@
         <image name="close-icon" width="26" height="24"/>
         <image name="edit-icon" width="30" height="27"/>
         <image name="favor-icon" width="30" height="30"/>
+        <image name="favor-icon-red" width="30" height="30"/>
         <image name="retweet-icon" width="30" height="30"/>
     </resources>
 </document>
