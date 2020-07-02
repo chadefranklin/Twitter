@@ -70,21 +70,17 @@ const NSString *usernameSymbol = @"@";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    //UITableViewCell *cell = [[UITableViewCell alloc] init];
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
     
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     Tweet *tweet = self.tweets[indexPath.row];
-    
-    [self constructTweetCell:cell :tweet];
+    [self configureTweetCell:cell :tweet];
         
-    cell.tweet = tweet;
-    
     return cell;
 }
 
-- (void)constructTweetCell:(TweetCell *)cell: (Tweet *)tweet{
+- (void)configureTweetCell:(TweetCell *)cell: (Tweet *)tweet{
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     // odd. screen name is the @username
     cell.displayNameLabel.text = tweet.user.name;
     //cell.usernameLabel.text = tweet.user.screenName;
@@ -92,26 +88,18 @@ const NSString *usernameSymbol = @"@";
     cell.dateLabel.text = tweet.createdAtString;
     cell.tweetLabel.text = tweet.text;
     
-    //cell.favoriteButton.titleLabel.text = [@(tweet.favoriteCount) stringValue];
-    //cell.retweetButton.titleLabel.text = [@(tweet.retweetCount) stringValue];
-    
     [cell.favoriteButton setTitle:[@(tweet.favoriteCount) stringValue] forState:UIControlStateNormal];
     [cell.retweetButton setTitle:[@(tweet.retweetCount) stringValue] forState:UIControlStateNormal];
     
-    //if ([tweet.user.profilePictureURL isKindOfClass:[NSString class]]){
     if (tweet.user.profilePictureURLString){
-        //NSString *posterURLString = tweet.user.profilePictureURL;
-        //[cell.posterView setImageWithURL:[CEFMovieFetcher.sharedObject makeBackdropURL:posterURLString]];
-        
         NSURL *imageURL = [NSURL URLWithString:tweet.user.profilePictureURLString];
         // some error checking
         if(imageURL && [imageURL scheme] && [imageURL host]){
         
         
-            //NSURLRequest *request = [CEFMovieFetcher.sharedObject makeSmallImageURLRequest:posterURLString];
             NSURLRequest *request = [NSURLRequest requestWithURL:imageURL];
 
-            __weak TweetCell *weakCell = cell; // is this correct usage?
+            __weak TweetCell *weakCell = cell;
             [cell.profileImageView setImageWithURLRequest:request placeholderImage:nil
                                             success:^(NSURLRequest *imageRequest, NSHTTPURLResponse *imageResponse, UIImage *image) {
                                                 // imageResponse will be nil if the image is cached
@@ -138,6 +126,8 @@ const NSString *usernameSymbol = @"@";
     } else {
         cell.profileImageView.image = nil;
     }
+    
+    cell.tweet = tweet;
 }
 
 
