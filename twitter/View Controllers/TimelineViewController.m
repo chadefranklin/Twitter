@@ -88,8 +88,14 @@ const NSString *usernameSymbol = @"@";
     cell.dateLabel.text = tweet.createdAtString;
     cell.tweetLabel.text = tweet.text;
     
-    [cell.favoriteButton setTitle:[@(tweet.favoriteCount) stringValue] forState:UIControlStateNormal];
-    [cell.retweetButton setTitle:[@(tweet.retweetCount) stringValue] forState:UIControlStateNormal];
+    
+    if(tweet.favorited){
+        [cell.favoriteButton setTitle:[@(tweet.favoriteCount) stringValue] forState:UIControlStateSelected];
+    } else {
+        [cell.favoriteButton setTitle:[@(tweet.favoriteCount) stringValue] forState:UIControlStateNormal];
+        //NSLog([@"set favorites to: " stringByAppendingString:[@(tweet.favoriteCount) stringValue]]);
+    }
+    cell.favoriteButton.selected = tweet.favorited;
     
     if (tweet.user.profilePictureURLString){
         NSURL *imageURL = [NSURL URLWithString:tweet.user.profilePictureURLString];
