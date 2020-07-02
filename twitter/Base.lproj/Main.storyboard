@@ -196,7 +196,11 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Home Timeline" id="MOc-fV-EZE">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="yWA-4h-fO6"/>
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="yWA-4h-fO6">
+                            <connections>
+                                <action selector="onLogoutPressed:" destination="Lbl-k5-U4i" id="Lx0-F0-XOF"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="edit-icon" id="RHn-mp-GIY">
                             <connections>
                                 <segue destination="IM8-Pj-jNw" kind="presentation" id="utU-WD-HvF"/>
