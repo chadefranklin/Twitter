@@ -25,7 +25,7 @@
 
         // Is this a re-tweet?
         NSDictionary *originalTweet = dictionary[@"retweeted_status"];
-        if(originalTweet != nil){
+        if(originalTweet){
             NSDictionary *userDictionary = dictionary[@"user"];
             self.retweetedByUser = [[User alloc] initWithDictionary:userDictionary];
 
