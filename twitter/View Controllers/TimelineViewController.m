@@ -13,6 +13,7 @@
 #import "ComposeViewController.h"
 #import "AppDelegate.h"
 #import "LoginViewController.h"
+#import "TweetDetailsViewController.h"
 
 @interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -23,8 +24,6 @@
 @end
 
 @implementation TimelineViewController
-
-const NSString *usernameSymbol = @"@";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -87,7 +86,6 @@ const NSString *usernameSymbol = @"@";
     
     // odd. screen name is the @username
     cell.displayNameLabel.text = tweet.user.name;
-    //cell.usernameLabel.text = tweet.user.screenName;
     cell.usernameLabel.text = [usernameSymbol stringByAppendingString:tweet.user.screenName];
     cell.dateLabel.text = tweet.createdAtString;
     cell.tweetLabel.text = tweet.text;
@@ -152,9 +150,21 @@ const NSString *usernameSymbol = @"@";
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    UINavigationController *navigationController = [segue destinationViewController];
-    ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
-    composeController.delegate = self;
+    //if (segue.identifier == @"toComposeTweetSegue") {
+    if ([segue.identifier isEqualToString:@"toComposeTweetSegue"]) {
+        UINavigationController *navigationController = [segue destinationViewController];
+        ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+        composeController.delegate = self;
+    } else if ([segue.identifier isEqualToString:@"toTweetDetailsSegue"]) {
+        UITableViewCell *tappedCell = sender;
+        NSIndexPath *indexPath = [self.tweetsTableView indexPathForCell:tappedCell];
+        Tweet *tweet = self.tweets[indexPath.row];
+        
+        //TweetDetailsViewController *tweetDetailsViewController = [segue destinationViewController];
+        UINavigationController *navigationController = [segue destinationViewController];
+        TweetDetailsViewController *tweetDetailsViewController = (TweetDetailsViewController*)navigationController.topViewController;
+        tweetDetailsViewController.tweet = tweet;
+    }
 }
 
 

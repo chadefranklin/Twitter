@@ -50,7 +50,7 @@ static NSString * const baseURLString = @"https://api.twitter.com";
 - (void)getHomeTimelineWithCompletion:(void(^)(NSArray *tweets, NSError *error))completion {
     
     [self GET:@"1.1/statuses/home_timeline.json"
-   parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
+   parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSMutableArray *  _Nullable tweetDictionaries) {
        
        // Manually cache the tweets. If the request fails, restore from cache if possible.
        //NSData *data = [NSKeyedArchiver archivedDataWithRootObject:tweetDictionaries];

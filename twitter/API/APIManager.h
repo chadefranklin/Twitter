@@ -10,6 +10,8 @@
 #import "BDBOAuth1SessionManager+SFAuthenticationSession.h"
 #import "Tweet.h"
 
+static NSString * const usernameSymbol = @"@";
+
 @interface APIManager : BDBOAuth1SessionManager
 
 + (instancetype)shared;
