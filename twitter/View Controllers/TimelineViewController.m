@@ -144,7 +144,7 @@
 
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-     if(!self.isMoreDataLoading){
+    if(!self.isMoreDataLoading && self.tweets.count > 0){
         // Calculate the position of one screen length before the bottom of the results
         int scrollViewContentHeight = self.tweetsTableView.contentSize.height;
         int scrollOffsetThreshold = scrollViewContentHeight - self.tweetsTableView.bounds.size.height;
@@ -153,7 +153,6 @@
         if(scrollView.contentOffset.y > scrollOffsetThreshold && self.tweetsTableView.isDragging) {
             //[self getTweets:[self.tweets lastObject]];
             Tweet *tweet = self.tweets.lastObject;
-            NSLog(tweet.idStr);
             [self getTweets:tweet.idStr];
         }
 
