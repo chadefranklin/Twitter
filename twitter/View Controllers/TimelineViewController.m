@@ -15,7 +15,7 @@
 #import "LoginViewController.h"
 #import "TweetDetailsViewController.h"
 
-@interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tweetsTableView;
 @property (nonatomic, strong) NSMutableArray *tweets;
@@ -31,16 +31,17 @@
     self.tweetsTableView.dataSource = self;
     self.tweetsTableView.delegate = self;
     
-    [self getTweets];
+    [self getTweets:nil];
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(getTweets) forControlEvents:UIControlEventValueChanged];
     [self.tweetsTableView insertSubview:self.refreshControl atIndex:0];
 }
 
-- (void)getTweets{
+- (void)getTweets:(NSString *)idStr{
+    self.isMoreDataLoading = true;
     // Get timeline
-    [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
+    [[APIManager shared] getHomeTimelineWithCompletion:idStr completion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
             NSLog(@"😎😎😎 Successfully loaded home timeline");
             //for (NSDictionary *dictionary in tweets) {
@@ -48,11 +49,13 @@
             //    NSLog(@"%@", text);
             //}
             
-            self.tweets = tweets;
+            //self.tweets = tweets;
+            self.tweets = [NSMutableArray arrayWithArray:tweets]; // add to mutable array
             [self.tweetsTableView reloadData];
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
         }
+        self.isMoreDataLoading = false;
         
         [self.refreshControl endRefreshing];
     }];
@@ -137,6 +140,24 @@
     appDelegate.window.rootViewController = loginViewController;
     
     [[APIManager shared] logout];
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+     if(!self.isMoreDataLoading){
+        // Calculate the position of one screen length before the bottom of the results
+        int scrollViewContentHeight = self.tweetsTableView.contentSize.height;
+        int scrollOffsetThreshold = scrollViewContentHeight - self.tweetsTableView.bounds.size.height;
+        
+        // When the user has scrolled past the threshold, start requesting
+        if(scrollView.contentOffset.y > scrollOffsetThreshold && self.tweetsTableView.isDragging) {
+            //[self getTweets:[self.tweets lastObject]];
+            Tweet *tweet = self.tweets.lastObject;
+            NSLog(tweet.idStr);
+            [self getTweets:tweet.idStr];
+        }
+
+     }
 }
 
 

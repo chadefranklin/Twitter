@@ -47,10 +47,15 @@ static NSString * const baseURLString = @"https://api.twitter.com";
     return self;
 }
 
-- (void)getHomeTimelineWithCompletion:(void(^)(NSArray *tweets, NSError *error))completion {
-    
+- (void)getHomeTimelineWithCompletion:(NSString *)idStr completion:(void(^)(NSArray *tweets, NSError *error))completion {
+    NSDictionary *parameters;
+    if(idStr != nil){
+        parameters = @{@"max_id": idStr};
+    } else {
+        parameters = nil;
+    }
     [self GET:@"1.1/statuses/home_timeline.json"
-   parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSMutableArray *  _Nullable tweetDictionaries) {
+   parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSMutableArray *  _Nullable tweetDictionaries) {
        
        // Manually cache the tweets. If the request fails, restore from cache if possible.
        //NSData *data = [NSKeyedArchiver archivedDataWithRootObject:tweetDictionaries];

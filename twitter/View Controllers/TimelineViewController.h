@@ -10,4 +10,6 @@
 
 @interface TimelineViewController : UIViewController
 
+@property (assign, nonatomic) BOOL isMoreDataLoading; // does this need to be in .h file?
+
 @end
